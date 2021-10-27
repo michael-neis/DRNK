@@ -4,6 +4,8 @@ body{
 
 #DRNKheader{
     text-align: center;
+    font-weight: 900;
+    font-size: 120%;
 }
 
 #formDiv{
@@ -27,75 +29,93 @@ body{
 
 
 #drinkContainer{
-    height: 900px;
-    padding: 30px;
+    height: 700px;
     font-size: 24px;
     border-bottom: outset;
-    border-right: outset;
+    border-left: outset;
     text-align: center;
-    background-color: rgba(189, 118, 52, 0.445);
-    width: 75%;
-    margin-left: auto;
-    margin-right: 0px;
-    border-radius: 2%;
-    border-color: brown;
+    background-color: #705A4A;
+    width: 72%;
+    margin-right: 3%;
+    border-color: #383D2E;
     margin-top: 35px;
+    margin-bottom: 35px;
     float: right;
-}
-
-
-#alcoholSelection{
-    
-}
-
-/* #drinkName{
-    
+    position: relative;
 }
 
 
 #allIngredientsList{
-    
-} */
+    list-style-type: circle;
+}
+
+
+#drinksList li{
+    list-style-type: none;
+    border-bottom: 1px solid black;
+    margin-left: -39px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    font-family: 'Courier', serif;
+    font-size: 115%;
+    font-style: italic;
+}
+
+
+#ingredientsDiv{
+    position: absolute;
+    float: left;
+    left: 20%;
+    bottom: 9%;
+}
 
 #drinkImage{
-    width: 60%;
-    height: auto;
+    width: auto;
+    height: 45%;
 }
 
 /* #instructionsHeader{
     
 } */
 
-
-#instructionsList{
-    list-style-position: inside;
-    margin-right: 40px;
+#instructionsDiv{
+    position: absolute;
+    float: right;
+    right: 20%;
+    bottom: 9%;
 }
 
-
-.drinkDetails{
-    float: right;
-    /* margin-right: 150px; */
-    width: 77%;
+#instructionsList{
+    list-style-type: upper-roman;
 }
 
 #selectDrinks{
-    background-color: lightcoral;
-    height: 900px;
-    width: 23%;
-    float: left;
+    background-color: #82828275;
+    height: 90%;
+    width: 100%;
     overflow: auto;
 }
 
 
 #navDiv{
-    background-color: cornflowerblue;
+    background-color: #423336;
     float: left;
     margin-top: 35px;
     width: 18%;
-    height: 900px;
+    height: 700px;
     text-align: center;
-    overflow: auto;
+    /* overflow: auto; */
+    margin-left: 3%;
+    margin-bottom: 35px;
+    border-bottom: outset;
+    border-left: outset;
+    border-color: #A68E72;
+}
+
+#possibleDrinks{
+    font-family: 'Courier', serif;
+    font-size: 130%;
+    font-style: italic;
 }
 
 
