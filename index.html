@@ -17,11 +17,11 @@
 
 
         <div id="formDiv">
-            <div>
+
                 <form id="alcoholSelection">
                 
                     <label for="hardSpirits">Hard Spirits
-                    <input list="spiritsList" id="hardSpirits" name="hardSpirits" autocomplete="off"/>
+                    <input list="spiritsList" id="hardSpirits" class="selectors" name="hardSpirits" autocomplete="off"/>
                     </label>
                         <datalist id="spiritsList">
                             <option value="vodka">
@@ -29,26 +29,31 @@
                 
             
                     <label for="liqeurs">Liqeurs
-                    <input list="liqeursList" id="liqeurs" name="liqeurs" autocomplete="off"/>
+                    <input list="liqeursList" id="liqeurs" class="selectors" name="liqeurs" autocomplete="off"/>
                     </label>
                         <datalist id="liqeursList">
                             <option value="campari">
                         </datalist>
 
                     <label for="mixers">Mixers
-                        <input list="mixersList" id="mixers" name="mixers" autocomplete="off"/>
+                        <input list="mixersList" id="mixers" class="selectors" name="mixers" autocomplete="off"/>
                         </label>
                             <datalist id="mixersList">
                                 <option value="club soda">
                             </datalist>
+                            
                     
+                    <button id="btnRandomizer"> ? </button>
+                    
+
                     <div>
                         <input type="submit" value="Find Drink" id="submitBtn"/>
-                    </div>
-                                
+                    </div>    
+
                 </form>
                     
-     
+                 
+
         </div>
 
 
