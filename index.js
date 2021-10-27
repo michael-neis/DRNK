@@ -20,37 +20,35 @@ const theForm = document.getElementById('alcoholSelection');
 theForm.addEventListener('submit', formHandler);
 
 //Event handlers
-function checkSpiritsFieldValue() {
-    if (hardSpiritsField.value && !spiritsList.includes(hardSpiritsField.value)) {
-        console.log("Seeing a value");
+async function checkSpiritsFieldValue() {
+    if (hardSpiritsField.value && !spiritsList.includes(hardSpiritsField.value) && !liqeursList.includes(hardSpiritsField.value) && !mixersList.includes(hardSpiritsField.value)) {
+        console.log("logging spirits entry");
         spiritsList.push(hardSpiritsField.value);
+        TESTfetchCocktailsByIngredient(hardSpiritsField.value, possibleDrinksFromSpirits);
         
-        //hardSpiritsField.reset();
+        
     } else {
-        console.log("Not evaluating to true");
-        //hardSpiritsField.reset();
+        console.log("spirits field empty");
     }
 }
 
 function checkLiqeursFieldValue() {
-    if (liqeursField.value && !liqeursList.includes(liqeursField.value)) {
+    if (liqeursField.value && !liqeursList.includes(liqeursField.value) && !spiritsList.includes(liqeursField.value) && !mixersList.includes(liqeursField.value)) {
         console.log("logging liqeur entry");
         liqeursList.push(liqeursField.value);
-        //liqeursField.reset();
-    } else {
-        //liqeursField.reset();
+        TESTfetchCocktailsByIngredient(liqeursField.value, possibleDrinksFromLiqeurs)
+        } else {
         console.log("liqeurs field empty");
     }
 }
 
 function checkMixersFieldValue() {
-    if (mixers.value && !mixersList.includes(mixers.value)) {
+    if (mixers.value && !mixersList.includes(mixers.value) && !spiritsList.includes(mixers.value) && !liqeursList.includes(mixers.value)) {
         console.log("logging mixer entry");
         mixersList.push(mixers.value);
-        //mixers.reset();
+        TESTfetchCocktailsByIngredient(mixers.value, possibleDrinksFromMixers);
     } else {
         console.log("mixer field empty");
-        //mixers.reset();
     }
 }
 
@@ -113,11 +111,13 @@ function formHandler(e) {
 - https://www.thecocktaildb.com/api/json/v2/9973533/list.php?a=list: filters based on whether the drink contains alcohol?
 */
 
-let possibleDrinksFromLiquors = [];
-let possibleDrinksFromCordials = [];
+let possibleDrinksFromSpirits = [];
+let possibleDrinksFromLiqeurs = [];
 let possibleDrinksFromMixers = [];
 
-function fetchCocktailsByIngredient(ingredient) {
+
+//fetchers
+async function fetchCocktailsByIngredient(ingredient) {
     let fetchURL = `${BASE_API_URL}${FILTER_BY_INGREDIENT}${ingredient}`;
     console.log(`THIS IS THE FETCH URL: ${fetchURL}`);
     fetch(fetchURL)
@@ -125,6 +125,29 @@ function fetchCocktailsByIngredient(ingredient) {
     .then(responseObject => ingredientResponseHandler(responseObject));
     
 }
+
+async function TESTfetchCocktailsByIngredient(ingredient, arrayToUpdate) {
+    let fetchURL = `${BASE_API_URL}${FILTER_BY_INGREDIENT}${ingredient}`;
+    console.log(`THIS IS THE FETCH URL: ${fetchURL}`);
+    fetch(fetchURL)
+    .then(res => res.json())
+    .then(responseObject => TESTingredientResponseHandler(responseObject, arrayToUpdate));
+    
+}
+
+async function TESTingredientResponseHandler(objWithArray, arrayToUpdate) {
+    if (typeof objWithArray.drinks === 'string') {
+        console.log('The ingredient query found no matching drinks');
+    } else {
+        for (const drinkObj of objWithArray.drinks) {
+            console.log(drinkObj);
+            console.log(`Possible drink array length (before PUSH): ${arrayToUpdate.length}`);
+            arrayToUpdate.push(drinkObj.strDrink);
+            console.log(`Possible drink array length (after PUSH): ${arrayToUpdate.length}`);
+        }
+    }
+}
+
 
 function ingredientResponseHandler(objWithArray) {
     for (const drinkObj of objWithArray.drinks) {
@@ -142,9 +165,9 @@ function basicFetch() {
 }
 
 function findLocusOfDrinks() {
-    let locusLiquorsAndCordials = possibleDrinksFromLiquors.filter(drink => possibleDrinksFromCordials.includes(drink));
-    let locusLiqCordMix = locusLiquorsAndCordials.filter(drink => possibleDrinksFromMixers.filter(drink));
-
+    let locusSpiritsAndLiqeurs = possibleDrinksFromSpirits.filter(drink => possibleDrinksFromLiqeurs.includes(drink));
+    let locusSpiLiqMix = locusSpiritsAndLiqeurs.filter(drink => possibleDrinksFromMixers.includes(drink));
+    return locusSpiLiqMix;
 }
 
 //DEBUGGING
@@ -154,6 +177,5 @@ function findLocusOfDrinks() {
 let testLiquors = ['vodka', 'rum', 'tequila', 'gin'];
 let testCordials = ['triple sec', 'chambord', 'baileys', 'St. Germain'];
 let testMixers = ['soda water', 'club soda', 'sprite', 'lemonade', 'ginger beer', 'gingerale', 'coke'];
-
 
 
