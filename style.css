@@ -1,0 +1,82 @@
+#DRNKheader{
+    text-align: center;
+}
+
+#formDiv{
+    text-align: center;
+}
+
+#submitBtn{
+    margin-top: 7px;
+    background: rgba(144, 211, 238, 0.445);
+    border-radius: 14%;
+    font-style: italic;
+    height: 30px;
+    width: 80px;
+}
+
+
+#drinkContainer{
+    height: 900px;
+    padding: 30px;
+    font-size: 24px;
+    border-bottom: outset;
+    border-right: outset;
+    text-align: center;
+    background-color: rgba(189, 118, 52, 0.445);
+    width: 1100px;
+    margin-left: auto;
+    margin-right: 0px;
+    border-radius: 2%;
+    border-color: brown;
+    margin-top: 35px;
+    float: right;
+}
+
+
+/* #drinkName{
+    
+}
+
+
+#allIngredientsList{
+    
+} */
+
+#drinkImage{
+    width: auto;
+    height: 350px;
+}
+
+/* #instructionsHeader{
+    
+} */
+
+
+#instructionsList{
+    list-style-position: inside;
+    margin-right: 40px;
+}
+
+
+.drinkDetails{
+    float: right;
+    margin-right: 150px;
+}
+
+#selectDrinks{
+    background-color: lightcoral;
+    height: 900px;
+    width: 300px;
+    float: left;
+    overflow: auto;
+}
+
+
+#navDiv{
+    background-color: cornflowerblue;
+    float: left;
+    margin-top: 35px;
+    width: 350px;
+    height: 900px;
+}
