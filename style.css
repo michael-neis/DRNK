@@ -1,18 +1,28 @@
+body{
+    background-color: darkslategray;
+}
+
 #DRNKheader{
     text-align: center;
 }
 
 #formDiv{
     text-align: center;
+    width: auto;
 }
 
 #submitBtn{
-    margin-top: 7px;
-    background: rgba(144, 211, 238, 0.445);
-    border-radius: 14%;
-    font-style: italic;
+    margin-top: 20px;
     height: 30px;
-    width: 80px;
+    width: 112px;
+    background-color: darkgray;
+    border: 2px solid rgb(110, 110, 110);
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.selectors{
+    margin-right: 3%;
 }
 
 
@@ -24,7 +34,7 @@
     border-right: outset;
     text-align: center;
     background-color: rgba(189, 118, 52, 0.445);
-    width: 1100px;
+    width: 75%;
     margin-left: auto;
     margin-right: 0px;
     border-radius: 2%;
@@ -33,6 +43,10 @@
     float: right;
 }
 
+
+#alcoholSelection{
+    
+}
 
 /* #drinkName{
     
@@ -44,8 +58,8 @@
 } */
 
 #drinkImage{
-    width: auto;
-    height: 350px;
+    width: 60%;
+    height: auto;
 }
 
 /* #instructionsHeader{
@@ -61,13 +75,14 @@
 
 .drinkDetails{
     float: right;
-    margin-right: 150px;
+    /* margin-right: 150px; */
+    width: 77%;
 }
 
 #selectDrinks{
     background-color: lightcoral;
     height: 900px;
-    width: 300px;
+    width: 23%;
     float: left;
     overflow: auto;
 }
@@ -77,6 +92,64 @@
     background-color: cornflowerblue;
     float: left;
     margin-top: 35px;
-    width: 350px;
+    width: 18%;
     height: 900px;
+    text-align: center;
+    overflow: auto;
 }
+
+
+#btnRandomizer{
+    color:darkgray;
+    background: #eee;
+    border: none;
+    background-color: inherit;
+    /* padding: 14px 28px; */
+    font-size: 36px;
+    cursor: pointer;
+    position: relative;
+    top: 5px;  
+}
+
+ 
+
+/* ----------------------------------------------------------------------------------------------- */
+
+
+
+
+/* 
+*{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    
+}
+.btn-group button {
+    background-color: darkgray;
+    border: 1px solid darkgray;
+    padding: 10px 24px;
+    cursor: pointer;
+    font-size: 20px;
+}
+.btn-group-vertical.center{
+    text-align: center;
+}
+.btn-group{
+    width:50%;
+    margin-left:25%;
+    margin-right:25%;
+}
+.btn-group button:hover {
+    background-color: white;
+}
+
+.btn {
+    border: none;
+    background-color: inherit;
+    padding: 14px 28px;
+    font-size: 36px;
+    cursor: pointer;
+    display: inline-block;
+}
+/* On mouse-over */
+/*.btn:hover {background: #eee;}
+.randomizer {color:darkgray;} */
