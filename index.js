@@ -31,6 +31,7 @@ const activeIngredients = document.getElementById('activeIngredients');
 const resetButton = document.getElementById('resetBtn');
 const drinkContainer = document.getElementById('drinkContainer');
 const randomBtn = document.getElementById('btnRandomizer');
+const inputFields = document.getElementsByClassName('selectors');
 
 
 //Add event listeners
@@ -76,6 +77,7 @@ function formHandler(e) {
     checkliqueursFieldValue();
     checkMixersFieldValue();
     e.target.reset();
+    clearContainer();
 }
 
 function renderDrinkList(listOfDrinks) {
@@ -138,11 +140,18 @@ function resetParams(){
     possibleDrinksFromLiqueurs.length = 0;
     possibleDrinksFromMixers.length = 0;
 
+    theForm.reset()
+
     while(drinksListNavBar.firstChild ){
         drinksListNavBar.removeChild(drinksListNavBar.firstChild);
       }
 
     drinkName.textContent = '↑ Choose Your Ingredients ↑'
+
+    clearContainer()
+}
+
+function clearContainer(){
     drinkImage.src = 'https://redheadoakbarrels.com/wp-content/uploads/2018/01/Top_Shelf_Liquors-e1512434197219.jpg'
     allIngredientsList.textContent = ''
     instructionsList.textContent = ''
@@ -367,7 +376,7 @@ function findLocusOfDrinks() {
 //Trying out autofill:
 
 const autoFillOptions = []
-const inputFields = document.getElementsByClassName('selectors')
+
 
 
 document.addEventListener('DOMContentLoaded', initFillOptions)
@@ -415,7 +424,7 @@ function autoFillBoxes (text, array){
         a.setAttribute('id', this.id + "selectorsList");
         a.setAttribute('class', 'selectorsItems');
 
-        console.log(a)
+        // console.log(a)
 
         //appends that element as a child to the auto fill container
         this.parentNode.appendChild(a);
@@ -436,6 +445,8 @@ function autoFillBoxes (text, array){
                     //takes the value of the item clicked and inputs it into the text field
                     text.value = this.getElementsByTagName('input')[0].value;
 
+                    currentFocus = -1;
+
                     //then makes sure to close the list
                     closeAllLists();
                 })
@@ -446,7 +457,7 @@ function autoFillBoxes (text, array){
     })
 
     //adding an eventlistener to the keydown
-    text.addEventListener('keydown', (e) => {
+    text.addEventListener('keydown', function(e) {
         let listItem = document.getElementById(this.id + "selectorsList");
         if (listItem) listItem = listItem.getElementsByTagName('div');
 
@@ -454,6 +465,7 @@ function autoFillBoxes (text, array){
         if (e.keyCode == 40){
             currentFocus++;
             addActive(listItem);
+            
 
         //for the up arrow, decrease focus variable and make that new selected item more visible
         } else if (e.keyCode == 38){
@@ -462,11 +474,17 @@ function autoFillBoxes (text, array){
 
         //for the enter key, prevent the whole form from being submitted, and simulate a 'click' on the selected item
         } else if (e.keyCode == 13){
-            //e.preventDefault();
+            // e.preventDefault();
+
+            console.log(currentFocus);
 
             if (currentFocus > -1){
+                e.preventDefault();
                 if (listItem) listItem[currentFocus].click();
+                currentFocus = -1;
             }
+
+            console.log(document.getElementsByClassName('activeSelectors'))
         }
     });
 
