@@ -67,7 +67,7 @@ background-color: #e9e9e9;
 
 
 #drinkContainer{
-    height: 700px;
+    height: auto;
     font-size: 24px;
     border-bottom: outset;
     border-left: outset;
@@ -110,16 +110,16 @@ background-color: #e9e9e9;
 
 
 #ingredientsDiv{
-    position: absolute;
-    float: left;
-    left: 7%;
+    position: relative;
+    left: 3%;
     bottom: 0%;
-    width: 40%;
+    width: 30%;
+    float: left;
 }
 
 #drinkImage{
-    width: auto;
-    height: 45%;
+    width: 45%;
+    height: auto;
 }
 
 /* #instructionsHeader{
@@ -127,9 +127,9 @@ background-color: #e9e9e9;
 } */
 
 #instructionsDiv{
-    position: absolute;
+    position: relative;
     float: right;
-    right: 7%;
+    right: 3%;
     bottom: 0%;
     width: 40%;
 }
