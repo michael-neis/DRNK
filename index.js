@@ -206,6 +206,8 @@ function randomDrink (){
 }
 
 function handleRandom(drinks){
+    resetParams()
+    drinkName.textContent = '← Select Your Drink'
     drinks.forEach(drink => randomArray.push(drink.strDrink))
     renderDrinkList(randomArray)
 }
