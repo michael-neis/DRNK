@@ -18,30 +18,39 @@
 
         <div id="formDiv">
 
-                <form id="alcoholSelection">
+                <form id="alcoholSelection" autocomplete="off">
                 
                     <label for="hardSpirits">Hard Spirits
-                    <input list="spiritsList" id="hardSpirits" class="selectors" name="hardSpirits" autocomplete="off"/>
+                        <div class="autoComplete" id="hardAuto">
+                            <input type="text" id="hardSpirits" class="selectors" name="hardSpirits"/>
+                        </div>
                     </label>
-                        <datalist id="spiritsList">
+
+                        <!-- <datalist id="spiritsList">
                             <option value="vodka">
-                        </datalist>
+                        </datalist> -->
                 
             
                     <label for="liqueurs">Liqueurs
-                    <input list="liqueursList" id="liqueurs" class="selectors" name="liqueurs" autocomplete="off"/>
+                        <div class="autoComplete" id="liqAuto">
+                            <input type="text" id="liqueurs" class="selectors" name="liqueurs"/>
+                        </div>
                     </label>
-                        <datalist id="liqueursList">
+
+                        <!-- <datalist id="liqueursList">
                             <option value="campari">
-                        </datalist>
+                        </datalist> -->
 
                     <label for="mixers">Mixers
-                        <input list="mixersList" id="mixers" class="selectors" name="mixers" autocomplete="off"/>
-                        </label>
-                            <datalist id="mixersList">
-                                <option value="club soda">
-                            </datalist>
-                            
+                        <div class="autoComplete" id="mixAuto">
+                            <input type="text" id="mixers" class="selectors" name="mixers"/>
+                        </div>
+                    </label>
+
+                        <!-- <datalist id="mixersList">
+                            <option value="club soda">
+                        </datalist>
+                         -->
                     
                     <button id="btnRandomizer"> ? </button>
                     
@@ -52,18 +61,23 @@
 
                 </form>
                     
-                 
+        </div>
 
+
+        <div id="runningIngredientsDiv">
+            <h2 style="padding-top: 2%;">Selected Ingredients:</h2>
+            <p id="activeIngredients">None Selected</p>
+            <button id="resetBtn">Reset</button>
         </div>
 
 
         <div id="drinkContainer">
 
-            <h2 id="drinkName">Example Drink:</h2>
+            <h2 id="drinkName">↑ Choose Your Ingredients ↑</h2>
 
             <img
                 id="drinkImage"
-                src="https://cdn1.foodviva.com/static-content/food-images/cocktail-recipes/red-death-drink/red-death-drink.jpg"
+                src="https://redheadoakbarrels.com/wp-content/uploads/2018/01/Top_Shelf_Liquors-e1512434197219.jpg"
                 alt="Drink Name"
             />
 
@@ -72,9 +86,6 @@
                 <h3>Ingredients:</h3>
 
                 <ul id="allIngredientsList">
-                    <li>Ingredient 1</li>
-                    <li>Ingredient 2</li>
-                    <li>Ingredient 3</li>
                 </ul>
 
             </div>
@@ -84,10 +95,6 @@
                 <h3 id="instructionsHeader">Instructions:</h3>
 
                 <ul id="instructionsList">
-                    <li>Do thing A.</li>
-                    <li>Do thing B.</li>
-                    <li>Keep on going.</li>
-                    <li>Till it's done.</li>
                 </ul>
 
             </div>
@@ -101,86 +108,6 @@
 
             <div id="selectDrinks">
                 <ul id="drinksList">
-                    <li>aasdfs dfasdfasd fasd casdcsasdc</li>
-                    <li>This is a drink</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
-                    <li>a</li>
                 </ul>
             </div>
 

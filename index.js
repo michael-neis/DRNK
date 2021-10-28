@@ -13,6 +13,7 @@ const liqueursList = [];
 const mixersList = [];
 let lociList = [];
 
+
 //HTML targets
 const hardSpiritsField = document.getElementById('hardSpirits');
 const liqueursField = document.getElementById('liqueurs');
@@ -24,9 +25,14 @@ const drinkName = document.getElementById('drinkName');
 const drinkImage = document.getElementById('drinkImage');
 const allIngredientsList = document.getElementById('allIngredientsList');
 const instructionsList = document.getElementById('instructionsList');
+const activeIngredients = document.getElementById('activeIngredients');
+const resetButton = document.getElementById('resetBtn');
+const drinkContainer = document.getElementById('drinkContainer');
+
 
 //Add event listeners
 theForm.addEventListener('submit', formHandler);
+resetButton.addEventListener('click', resetParams);
 
 //Event handlers
 async function checkSpiritsFieldValue() {
@@ -105,6 +111,39 @@ function focusFrameHandler(drinkRespObj, plainTextName) {
     }
 }
 
+
+function addToIngredients(ingredient){
+    let word = ingredient.toLowerCase()
+    if(activeIngredients.textContent === "None Selected") {
+        activeIngredients.textContent = ""
+        activeIngredients.append(word)
+} else {
+    activeIngredients.append(`, ${word}`)
+}
+}
+
+function resetParams(){
+    activeIngredients.textContent = "None Selected";
+
+    spiritsList.length = 0;
+    liqueursList.length = 0;
+    mixersList.length = 0;
+
+    possibleDrinksFromSpirits.length = 0;
+    possibleDrinksFromLiqueurs.length = 0;
+    possibleDrinksFromMixers.length = 0;
+
+    while(drinksListNavBar.firstChild ){
+        drinksListNavBar.removeChild(drinksListNavBar.firstChild);
+      }
+
+    drinkName.textContent = '↑ Choose Your Ingredients ↑'
+    drinkImage.src = 'https://redheadoakbarrels.com/wp-content/uploads/2018/01/Top_Shelf_Liquors-e1512434197219.jpg'
+    allIngredientsList.textContent = ''
+    instructionsList.textContent = ''
+}
+
+
 //focusFrame targets: drinkName, drinkImage, allIngredientsList, instructionsList
 function renderFocusFrame(drinkObj) {
     console.log("you're so close! You're in the focus frame renderer");
@@ -114,6 +153,7 @@ function renderFocusFrame(drinkObj) {
     
 
 }
+
 
 
 /* Not very useful endpoints:
@@ -182,14 +222,14 @@ async function TESTfetchCocktailsByIngredient(ingredient, arrayToUpdate) {
     console.log(`THIS IS THE FETCH URL: ${fetchURL}`);
     fetch(fetchURL)
     .then(res => res.json())
-    .then(responseObject => TESTingredientResponseHandler(responseObject, arrayToUpdate))
+    .then(responseObject => TESTingredientResponseHandler(responseObject, arrayToUpdate, ingredient))
     .then(() => findLocusOfDrinks())
     .then(() => console.log("Fetched cocktails by ingredient, found Loci, then logged."))
     .then(() => renderDrinkList(lociList))
     .then(() => console.log("Rendered drink list, THEN logged this."));
 }
 
-async function TESTingredientResponseHandler(objWithArray, arrayToUpdate) {
+async function TESTingredientResponseHandler(objWithArray, arrayToUpdate, ingredient) {
     if (typeof objWithArray.drinks === 'string') {
         console.log('The ingredient query found no matching drinks');
     } else {
@@ -200,7 +240,8 @@ async function TESTingredientResponseHandler(objWithArray, arrayToUpdate) {
             arrayToUpdate.push(drinkObj.strDrink);
             //console.log(`Possible drink array length (after PUSH): ${arrayToUpdate.length}`);
         }
-
+        addToIngredients(ingredient);
+        drinkName.textContent = '← Select Your Drink';
     }
 }
 
@@ -271,4 +312,163 @@ console.log("starting that 'GARBAGE' fetch --- standby");
 fetch('https://www.thecocktaildb.com/api/json/v2/9973533/search.php?s=garbage')
 .then(res => res.json())
 .then(obj => console.log((obj.drinks === null)))
+
+
+
+
+
+
+
+
+
+
+
+//Trying out autofill:
+
+const autoFillOptions = []
+const inputFields = document.getElementsByClassName('selectors')
+
+
+document.addEventListener('DOMContentLoaded', initFillOptions)
+
+
+function initFillOptions (){
+    fetch(`${BASE_API_URL}/list.php?i=list`)
+    .then(res => res.json())
+    .then(obj => levelDown(obj))
+}
+
+function levelDown(obj){
+    let allArray = obj.drinks
+    createFillOptions(allArray)
+}
+
+function createFillOptions (array){
+    array.forEach(obj => {
+        let drinkies = obj.strIngredient1
+        autoFillOptions.push(drinkies)
+    })
+}
+
+
+function autoFillBoxes (text, array){
+
+    //the variable that will determine what list item we are on
+    let currentFocus;
+
+    text.addEventListener('input', function(e) {
+        
+        // elements to be filled with the value of what is being typed
+        let a, b, i, val = this.value;
+
+        //makes sure no autofills happen simultaneously
+        closeAllLists();
+
+        //stops fill from happening if no value found
+        if (!val) {return false;}
+
+        currentFocus = -1;
+
+        //assigning DIV element to contain values
+        a = document.createElement('div');
+        a.setAttribute('id', this.id + "selectorsList");
+        a.setAttribute('class', 'selectorsItems');
+
+        console.log(a)
+
+        //appends that element as a child to the auto fill container
+        this.parentNode.appendChild(a);
+
+        //checks for items in the array that start with the same letter(s) as typed, as well as applyng BOLD to those letters
+        for (i = 0; i < array.length; i++){
+            if (array[i].substr(0, val.length).toUpperCase() == val.toUpperCase()){
+                b = document.createElement('div');
+                b.innerHTML = "<strong>" + array[i].substr(0, val.length) + "</strong>";
+                b.innerHTML += array[i].substr(val.length);
+
+                //creating a field to hold the value of an item (word) in the array
+                b.innerHTML += "<input type='hidden' value='" + array[i] + "'>";
+
+                //create an eventlistener for when an item is clicked
+                b.addEventListener('click', function(e) {
+
+                    //takes the value of the item clicked and inputs it into the text field
+                    text.value = this.getElementsByTagName('input')[0].value;
+
+                    //then makes sure to close the list
+                    closeAllLists();
+                })
+
+                a.appendChild(b);
+            }
+        }
+    })
+
+    //adding an eventlistener to the keydown
+    text.addEventListener('keydown', (e) => {
+        let listItem = document.getElementById(this.id + "selectorsList");
+        if (listItem) listItem = listItem.getElementsByTagName('div');
+
+        //for down arrow, increase focus variable and make item more visible
+        if (e.keyCode == 40){
+            currentFocus++;
+            addActive(listItem);
+
+        //for the up arrow, decrease focus variable and make that new selected item more visible
+        } else if (e.keyCode == 38){
+            currentFocus--;
+            addActive(listItem);
+
+        //for the enter key, prevent the whole form from being submitted, and simulate a 'click' on the selected item
+        } else if (e.keyCode == 13){
+            e.preventDefault();
+
+            if (currentFocus > -1){
+                if (listItem) listItem[currentFocus].click();
+            }
+        }
+    });
+
+    //creating a function to clasify whether an item is "active"
+    function addActive(item){
+        if (!item) return false;
+
+        //initiate another function to remove all 'active' indications and reseting focus
+        removeActive(item);
+        if (currentFocus >= item.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (item.length - 1);
+
+        //adding a new html class for the active elements
+        item[currentFocus].classList.add('activeSelectors');
+    }
+
+    //the actual function to remove the active indications as initiated above
+    function removeActive(item){
+        for (let i = 0; i < item.length; i++){
+            item[i].classList.remove('activeSelectors');
+        }
+    }
+
+    //the function that actually closes the lists from earlier
+    function closeAllLists(list) {
+        var x = document.getElementsByClassName("selectorsItems");
+        for (var i = 0; i < x.length; i++) {
+        if (list != x[i] && list != text) {
+                x[i].parentNode.removeChild(x[i]);
+            }
+        }
+    }
+
+    //and finally, an eventlistener so that when the user clicks out of the field, the lists are closed
+    document.addEventListener('click', (e) => closeAllLists(e.target))
+
+}
+
+
+
+  //initiating it
+
+  autoFillBoxes(hardSpiritsField, autoFillOptions);
+  autoFillBoxes(liqueursField, autoFillOptions);
+  autoFillBoxes(mixersField, autoFillOptions);
 
