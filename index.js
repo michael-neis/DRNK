@@ -32,6 +32,16 @@ const resetButton = document.getElementById('resetBtn');
 const drinkContainer = document.getElementById('drinkContainer');
 const randomBtn = document.getElementById('btnRandomizer');
 const inputFields = document.getElementsByClassName('selectors');
+const tipsyDrink = document.getElementById('DRNKLogoRot')
+
+
+let numDrinks = 200
+
+function increaseTipsiness(){
+    numDrinks += 50;
+}
+
+
 
 
 //Add event listeners
@@ -94,6 +104,8 @@ function listClickHandler(e) {
     let drinkName = e.target.innerText;
     console.log(`I see your click targeting: ${drinkName}`);
     console.log(`FETCH ADDRESS: ${QUERY_BY_DRINK_NAME}${drinkName}`);
+    increaseTipsiness()
+    tipsyDrink.style.transition= `opacity ${numDrinks}ms`
     fetch(`${QUERY_BY_DRINK_NAME}${drinkName}`)
     .then(res => res.json())
     .then(respObj => focusFrameHandler(respObj, drinkName));
