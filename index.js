@@ -76,10 +76,10 @@ function formHandler(e) {
 function renderDrinkList(listOfDrinks) {
     drinksListNavBar.innerHTML = '';
     for (const drinkStr of listOfDrinks) {
-        let listEntry = document.createElement('li');
-        listEntry.innerText = drinkStr;
-        listEntry.addEventListener('click', listClickHandler);
-        drinksListNavBar.append(listEntry);
+            let listEntry = document.createElement('li');
+            listEntry.innerText = drinkStr;
+            listEntry.addEventListener('click', listClickHandler);
+            drinksListNavBar.append(listEntry);
     }
 }
 
@@ -165,9 +165,11 @@ function renderInstructions(drinkObj) {
     console.log(`Original instructions: ${drinkObj.strInstructions}`);
     let instructionsArray = drinkObj.strInstructions.split('.');
     for (const instruction of instructionsArray) {
-        let instructionLi = document.createElement('li');
-        instructionLi.innerText = instruction;
-        instructionsList.append(instructionLi);
+        if (instruction.trim() !== '') {
+            let instructionLi = document.createElement('li');
+            instructionLi.innerText = instruction;
+            instructionsList.append(instructionLi);
+        }
     }
 }
 
