@@ -117,9 +117,9 @@ function addToIngredients(ingredient){
     if(activeIngredients.textContent === "None Selected") {
         activeIngredients.textContent = ""
         activeIngredients.append(word)
-} else {
-    activeIngredients.append(`, ${word}`)
-}
+    } else {
+        activeIngredients.append(`, ${word}`)
+    }
 }
 
 function resetParams(){
@@ -147,13 +147,48 @@ function resetParams(){
 //focusFrame targets: drinkName, drinkImage, allIngredientsList, instructionsList
 function renderFocusFrame(drinkObj) {
     console.log("you're so close! You're in the focus frame renderer");
+    allIngredientsList.innerHTML = '';
     drinkName.innerText = drinkObj.strDrink;
     drinkImage.src = drinkObj.strDrinkThumb;
-    
-    
-
+    let ingredientsMeasuresArr = drinkRatiosHelper(drinkObj);
+    for (const valuePairArray of ingredientsMeasuresArr) {
+        let ingredientLi = document.createElement('li');
+        ingredientLi.innerText = `${valuePairArray[0]}:  ${valuePairArray[1]}`;
+        allIngredientsList.append(ingredientLi);
+    }
+    renderInstructions(drinkObj);
 }
 
+function renderInstructions(drinkObj) {
+    console.log(`About to render drink instructions for: ${drinkObj.strDrink}`);
+    instructionsList.innerHTML = '';
+    console.log(`Original instructions: ${drinkObj.strInstructions}`);
+    let instructionsArray = drinkObj.strInstructions.split('.');
+    for (const instruction of instructionsArray) {
+        let instructionLi = document.createElement('li');
+        instructionLi.innerText = instruction;
+        instructionsList.append(instructionLi);
+    }
+}
+
+function drinkRatiosHelper(drinkObj) {
+    let ingredientsAndRatios = [];
+    let ingredientNameKey = 'strIngredient';
+    let ingredientMeasureKey = 'strMeasure';
+    for (i=1; i<=15; i++) {
+        let ingredientQuery = `${ingredientNameKey}${i}`;
+        let measureQuery = `${ingredientMeasureKey}${i}`;
+        if (drinkObj?.[ingredientQuery] === null) {
+            console.log("Reached the end of real ingredients/measures.");
+            break;
+        } else {
+            console.log(`Pushing ${drinkObj[ingredientQuery]}, ${drinkObj[measureQuery]}`);
+            ingredientsAndRatios.push([drinkObj[ingredientQuery], drinkObj[measureQuery]]);
+        }
+    }
+    console.log("Object mapped, ingredients and ratios stored safely.");
+    return ingredientsAndRatios;
+}
 
 
 /* Not very useful endpoints:
@@ -234,12 +269,9 @@ async function TESTingredientResponseHandler(objWithArray, arrayToUpdate, ingred
         console.log('The ingredient query found no matching drinks');
     } else {
         for (const drinkObj of objWithArray.drinks) {
-            console.log(drinkObj);
-            console.log("pushing possible drink");
-            //console.log(`Possible drink array length (before PUSH): ${arrayToUpdate.length}`);
+            console.log(`pushing possible drink: ${drinkObj.strDrink}`);
             arrayToUpdate.push(drinkObj.strDrink);
-            //console.log(`Possible drink array length (after PUSH): ${arrayToUpdate.length}`);
-        }
+            }
         addToIngredients(ingredient);
         drinkName.textContent = '← Select Your Drink';
     }
@@ -303,23 +335,8 @@ function findLocusOfDrinks() {
 
 
 //DEBUGGING
-//console.log(fetchCocktailsByIngredient("vodka"));
-//console.log(possibleDrinksFromLiquors);
-//let testLiquors = ['vodka', 'rum', 'tequila', 'gin'];
-//let testCordials = ['triple sec', 'chambord', 'baileys', 'St. Germain'];
-//let testMixers = ['soda water', 'club soda', 'sprite', 'lemonade', 'ginger beer', 'gingerale', 'coke'];
-console.log("starting that 'GARBAGE' fetch --- standby");
-fetch('https://www.thecocktaildb.com/api/json/v2/9973533/search.php?s=garbage')
-.then(res => res.json())
-.then(obj => console.log((obj.drinks === null)))
 
-
-
-
-
-
-
-
+//nothing to see here right now =D
 
 
 
@@ -421,7 +438,7 @@ function autoFillBoxes (text, array){
 
         //for the enter key, prevent the whole form from being submitted, and simulate a 'click' on the selected item
         } else if (e.keyCode == 13){
-            e.preventDefault();
+            //e.preventDefault();
 
             if (currentFocus > -1){
                 if (listItem) listItem[currentFocus].click();
