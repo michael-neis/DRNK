@@ -12,6 +12,8 @@ const spiritsList = [];
 const liqueursList = [];
 const mixersList = [];
 let lociList = [];
+let randomArray = [];
+
 
 
 //HTML targets
@@ -28,11 +30,14 @@ const instructionsList = document.getElementById('instructionsList');
 const activeIngredients = document.getElementById('activeIngredients');
 const resetButton = document.getElementById('resetBtn');
 const drinkContainer = document.getElementById('drinkContainer');
+const randomBtn = document.getElementById('btnRandomizer');
 
 
 //Add event listeners
 theForm.addEventListener('submit', formHandler);
 resetButton.addEventListener('click', resetParams);
+randomBtn.addEventListener('click', randomDrink);
+
 
 //Event handlers
 async function checkSpiritsFieldValue() {
@@ -189,6 +194,21 @@ function drinkRatiosHelper(drinkObj) {
     console.log("Object mapped, ingredients and ratios stored safely.");
     return ingredientsAndRatios;
 }
+
+
+function randomDrink (){
+    randomArray.length = 0;
+    fetch(`${BASE_API_URL}/randomselection.php`)
+    .then(resp => resp.json())
+    .then(drinks => handleRandom(drinks.drinks))
+}
+
+function handleRandom(drinks){
+    drinks.forEach(drink => randomArray.push(drink.strDrink))
+    renderDrinkList(randomArray)
+}
+
+
 
 
 /* Not very useful endpoints:
