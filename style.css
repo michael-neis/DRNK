@@ -24,6 +24,11 @@ body{
     border-style: ridge;
 }
 
+#submitBtn:hover{
+    background-color: rgba(46, 90, 1, 0.644);
+    color: rgb(214, 214, 214);
+}
+
 
 
 .selectors{
@@ -93,6 +98,15 @@ background-color: #e9e9e9;
     font-style: italic;
 }
 
+#drinksList li:hover{
+    background-color: rgba(56, 11, 20, 0.521);
+    cursor: pointer;
+    color: darkgray;
+    border: peru;
+    border-style: outset;
+    z-index: 100;
+}
+
 
 #ingredientsDiv{
     position: absolute;
@@ -154,13 +168,22 @@ background-color: #e9e9e9;
 #btnRandomizer{
     color:darkgray;
     background: #eee;
-    border: none;
+    border: outset;
     background-color: inherit;
     /* padding: 14px 28px; */
     font-size: 36px;
     cursor: pointer;
     position: relative;
     top: 5px;  
+    height: 47px;
+    width: 47px;
+}
+
+#btnRandomizer:hover{
+    background-color: darkgray;
+    color: darkslategrey;
+    border-style: inset;
+    border-color: darkslategrey;
 }
 
 
@@ -183,6 +206,16 @@ background-color: #e9e9e9;
     font-size: 100%;
     background-color: rgba(77, 77, 119, 0.288);
     color: rgb(250, 250, 250);
+    cursor: pointer;
+    border-style: outset;
+}
+
+#resetBtn:hover{
+    color: black;
+    border: rgba(155, 42, 22, 0.856);
+    border-style: inset;
+    border-width: 2px;
+    background-color: rgba(141, 33, 33, 0.438);
 }
  
 
