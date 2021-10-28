@@ -185,12 +185,16 @@ function drinkRatiosHelper(drinkObj) {
     for (i=1; i<=15; i++) {
         let ingredientQuery = `${ingredientNameKey}${i}`;
         let measureQuery = `${ingredientMeasureKey}${i}`;
-        if (drinkObj?.[ingredientQuery] === null) {
+        if (drinkObj?.[ingredientQuery] === null || drinkObj?.[ingredientQuery] === '') {
             console.log("Reached the end of real ingredients/measures.");
             break;
         } else {
-            console.log(`Pushing ${drinkObj[ingredientQuery]}, ${drinkObj[measureQuery]}`);
-            ingredientsAndRatios.push([drinkObj[ingredientQuery], drinkObj[measureQuery]]);
+            if (drinkObj?.[measureQuery] !== null) {
+                console.log(`Pushing ${drinkObj[ingredientQuery]}, ${drinkObj[measureQuery]}`);
+                ingredientsAndRatios.push([drinkObj[ingredientQuery], drinkObj[measureQuery]]);
+            } else {
+                ingredientsAndRatios.push([drinkObj[ingredientQuery], 'to taste']);
+            }
         }
     }
     console.log("Object mapped, ingredients and ratios stored safely.");
