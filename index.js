@@ -525,7 +525,6 @@ function autoFillBoxes (text, array){
 
     //and finally, an eventlistener so that when the user clicks out of the field, the lists are closed
     document.addEventListener('click', (e) => closeAllLists(e.target))
-
 }
 
 
