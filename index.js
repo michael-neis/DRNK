@@ -389,10 +389,10 @@ function findLocusOfDrinks() {
 
 
 
+
 //Trying out autofill:
 
 const autoFillOptions = []
-
 
 
 document.addEventListener('DOMContentLoaded', initFillOptions)
@@ -401,17 +401,13 @@ document.addEventListener('DOMContentLoaded', initFillOptions)
 function initFillOptions (){
     fetch(`${BASE_API_URL}/list.php?i=list`)
     .then(res => res.json())
-    .then(obj => levelDown(obj))
+    .then(obj => createFillOptions(obj))
 }
 
-function levelDown(obj){
+function createFillOptions (obj){
     let allArray = obj.drinks
-    createFillOptions(allArray)
-}
-
-function createFillOptions (array){
-    array.forEach(obj => {
-        let drinkies = obj.strIngredient1
+    allArray.forEach(ing => {
+        let drinkies = ing.strIngredient1
         autoFillOptions.push(drinkies)
     })
 }
@@ -425,38 +421,36 @@ function autoFillBoxes (text, array){
     text.addEventListener('input', function(e) {
         
         // elements to be filled with the value of what is being typed
-        let a, b, i, val = this.value;
+        let dropDown, listItem, matchLetters = this.value;
 
-        //makes sure no autofills happen simultaneously
+        //makes sure no autofill lists can happen simultaneously
         closeAllLists();
 
         //stops fill from happening if no value found
-        if (!val) {return false;}
+        if (!matchLetters) {return false;}
 
         currentFocus = -1;
 
         //assigning DIV element to contain values
-        a = document.createElement('div');
-        a.setAttribute('id', this.id + "selectorsList");
-        a.setAttribute('class', 'selectorsItems');
-
-        // console.log(a)
+        dropDown = document.createElement('div');
+        dropDown.setAttribute('id', this.id + "selectorsList");
+        dropDown.setAttribute('class', 'selectorsItems');
 
         //appends that element as a child to the auto fill container
-        this.parentNode.appendChild(a);
+        this.parentNode.appendChild(dropDown);
 
         //checks for items in the array that start with the same letter(s) as typed, as well as applyng BOLD to those letters
-        for (i = 0; i < array.length; i++){
-            if (array[i].substr(0, val.length).toUpperCase() == val.toUpperCase()){
-                b = document.createElement('div');
-                b.innerHTML = "<strong>" + array[i].substr(0, val.length) + "</strong>";
-                b.innerHTML += array[i].substr(val.length);
+        for (let i = 0; i < array.length; i++){
+            if (array[i].substr(0, matchLetters.length).toUpperCase() == matchLetters.toUpperCase()){
+                listItem = document.createElement('div');
+                listItem.innerHTML = "<strong>" + array[i].substr(0, matchLetters.length) + "</strong>";
+                listItem.innerHTML += array[i].substr(matchLetters.length);
 
                 //creating a field to hold the value of an item (word) in the array
-                b.innerHTML += "<input type='hidden' value='" + array[i] + "'>";
+                listItem.innerHTML += "<input type='hidden' value='" + array[i] + "'>";
 
                 //create an eventlistener for when an item is clicked
-                b.addEventListener('click', function(e) {
+                listItem.addEventListener('click', function(e) {
 
                     //takes the value of the item clicked and inputs it into the text field
                     text.value = this.getElementsByTagName('input')[0].value;
@@ -467,40 +461,35 @@ function autoFillBoxes (text, array){
                     closeAllLists();
                 })
 
-                a.appendChild(b);
+                dropDown.appendChild(listItem);
             }
         }
     })
 
     //adding an eventlistener to the keydown
-    text.addEventListener('keydown', function(e) {
+    text.addEventListener('keydown', function(keySpec) {
         let listItem = document.getElementById(this.id + "selectorsList");
         if (listItem) listItem = listItem.getElementsByTagName('div');
 
         //for down arrow, increase focus variable and make item more visible
-        if (e.keyCode == 40){
+        if (keySpec.keyCode == 40){
             currentFocus++;
             addActive(listItem);
-            
 
         //for the up arrow, decrease focus variable and make that new selected item more visible
-        } else if (e.keyCode == 38){
+        } else if (keySpec.keyCode == 38){
             currentFocus--;
             addActive(listItem);
 
         //for the enter key, prevent the whole form from being submitted, and simulate a 'click' on the selected item
-        } else if (e.keyCode == 13){
-            // e.preventDefault();
-
-            console.log(currentFocus);
+        } else if (keySpec.keyCode == 13){
 
             if (currentFocus > -1){
-                e.preventDefault();
+                keySpec.preventDefault();
                 if (listItem) listItem[currentFocus].click();
                 currentFocus = -1;
             }
 
-            console.log(document.getElementsByClassName('activeSelectors'))
         }
     });
 
@@ -526,10 +515,10 @@ function autoFillBoxes (text, array){
 
     //the function that actually closes the lists from earlier
     function closeAllLists(list) {
-        var x = document.getElementsByClassName("selectorsItems");
-        for (var i = 0; i < x.length; i++) {
-        if (list != x[i] && list != text) {
-                x[i].parentNode.removeChild(x[i]);
+        var dropDiv = document.getElementsByClassName("selectorsItems");
+        for (var i = 0; i < dropDiv.length; i++) {
+        if (list != dropDiv[i] && list != text) {
+                dropDiv[i].parentNode.removeChild(dropDiv[i]);
             }
         }
     }
