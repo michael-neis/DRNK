@@ -34,6 +34,11 @@ const randomBtn = document.getElementById('btnRandomizer');
 const inputFields = document.getElementsByClassName('selectors');
 const tipsyDrink = document.getElementById('DRNKLogoRot')
 
+const spiritIngredients = document.getElementById('spiritIngredients')
+const liqueurIngredients = document.getElementById('liqueurIngredients')
+const mixerIngredients = document.getElementById('mixerIngredients')
+const ingredientsInputField = document.getElementById('ingredientsInput')
+
 
 let numDrinks = 200
 
@@ -51,41 +56,18 @@ randomBtn.addEventListener('click', randomDrink);
 
 
 //Event handlers
-async function checkSpiritsFieldValue() {
-    if (hardSpiritsField.value.length > 0 && !spiritsList.includes(hardSpiritsField.value) && !liqueursList.includes(hardSpiritsField.value) && !mixersList.includes(hardSpiritsField.value)) {
-        console.log("logging spirits entry");
-        spiritsList.push(hardSpiritsField.value);
-        TESTfetchCocktailsByIngredient(hardSpiritsField.value, possibleDrinksFromSpirits);
+async function checkInputFieldValue() {
+    if (ingredientsInputField.value.length > 0 && !spiritsList.includes(ingredientsInputField.value) && !liqueursList.includes(ingredientsInputField.value) && !mixersList.includes(ingredientsInputField.value)) {
+        console.log("logging ingredients entry");
+        checkType(ingredientsInputField.value);
         } else {
-        console.log("spirits field empty");
-    }
-}
-
-function checkliqueursFieldValue() {
-    if (liqueursField.value.length > 0  && !liqueursList.includes(liqueursField.value) && !spiritsList.includes(liqueursField.value) && !mixersList.includes(liqueursField.value)) {
-        console.log("logging liqueur entry");
-        liqueursList.push(liqueursField.value);
-        TESTfetchCocktailsByIngredient(liqueursField.value, possibleDrinksFromLiqueurs);
-        } else {
-        console.log("liqueurs field empty");
-    }
-}
-
-function checkMixersFieldValue() {
-    if (mixersField.value.length > 0 && !mixersList.includes(mixersField.value) && !spiritsList.includes(mixersField.value) && !liqueursList.includes(mixersField.value)) {
-        console.log("logging mixer entry");
-        mixersList.push(mixersField.value);
-        TESTfetchCocktailsByIngredient(mixersField.value, possibleDrinksFromMixers);
-    } else {
-        console.log("mixer field empty");
+        console.log("ingredients field empty");
     }
 }
 
 function formHandler(e) {
     e.preventDefault();
-    checkSpiritsFieldValue();
-    checkliqueursFieldValue();
-    checkMixersFieldValue();
+    checkInputFieldValue();
     e.target.reset();
     clearContainer();
 }
@@ -131,18 +113,40 @@ function focusFrameHandler(drinkRespObj, plainTextName) {
 }
 
 
-function addToIngredients(ingredient){
+function addToSpiritIngredients(ingredient){
     let word = ingredient.toLowerCase()
-    if(activeIngredients.textContent === "None Selected") {
-        activeIngredients.textContent = ""
-        activeIngredients.append(word)
+    if(spiritIngredients.textContent === "None Selected") {
+        spiritIngredients.textContent = ""
+        spiritIngredients.append(word)
     } else {
-        activeIngredients.append(`, ${word}`)
+        spiritIngredients.append(`, ${word}`)
+    }
+}
+
+function addToLiqueurIngredients(ingredient){
+    let word = ingredient.toLowerCase()
+    if(liqueurIngredients.textContent === "None Selected") {
+        liqueurIngredients.textContent = ""
+        liqueurIngredients.append(word)
+    } else {
+        liqueurIngredients.append(`, ${word}`)
+    }
+}
+
+function addToMixerIngredients(ingredient){
+    let word = ingredient.toLowerCase()
+    if(mixerIngredients.textContent === "None Selected") {
+        mixerIngredients.textContent = ""
+        mixerIngredients.append(word)
+    } else {
+        mixerIngredients.append(`, ${word}`)
     }
 }
 
 function resetParams(){
-    activeIngredients.textContent = "None Selected";
+    spiritIngredients.textContent = "None Selected";
+    liqueurIngredients.textContent = "None Selected";
+    mixerIngredients.textContent = "None Selected";
 
     spiritsList.length = 0;
     liqueursList.length = 0;
@@ -168,6 +172,29 @@ function clearContainer(){
     allIngredientsList.textContent = ''
     instructionsList.textContent = ''
 }
+
+
+
+function sortIngredients(obj){
+    let ingArray = obj.ingredients;
+    let ingObj = ingArray[0];
+    let word = ingObj.strIngredient;
+
+    if (ingObj.strAlcohol === 'Yes' && ingObj.strType === 'Liqueur'){
+        liqueursList.push(word);
+        TESTfetchCocktailsByIngredient(word, possibleDrinksFromLiqueurs);
+        addToLiqueurIngredients(word);
+    } else if (ingObj.strAlcohol === 'Yes'){
+        spiritsList.push(word);
+        TESTfetchCocktailsByIngredient(word, possibleDrinksFromSpirits);
+        addToSpiritIngredients(word);
+    } else {
+        mixersList.push(word);
+        TESTfetchCocktailsByIngredient(word, possibleDrinksFromMixers);
+        addToMixerIngredients(word);
+    }
+}
+
 
 
 //focusFrame targets: drinkName, drinkImage, allIngredientsList, instructionsList
@@ -320,8 +347,8 @@ async function TESTingredientResponseHandler(objWithArray, arrayToUpdate, ingred
         for (const drinkObj of objWithArray.drinks) {
             console.log(`pushing possible drink: ${drinkObj.strDrink}`);
             arrayToUpdate.push(drinkObj.strDrink);
+            console.log(objWithArray)
             }
-        addToIngredients(ingredient);
         drinkName.textContent = '← Select Your Drink';
     }
 }
@@ -379,6 +406,13 @@ function findLocusOfDrinks() {
         console.log("Locus found for populated spirits, populated liqueurs, empty mixers");
         return lociList;
     }
+}
+
+
+function checkType(ingredient){
+    fetch(`${BASE_API_URL}search.php?i=${ingredient}`)
+    .then(resp => resp.json())
+    .then(obj => sortIngredients(obj))
 }
 
 
@@ -460,7 +494,7 @@ function autoFillBoxes (text, array){
                     //then makes sure to close the list
                     closeAllLists();
                 })
-
+                listItem.setAttribute('class', 'autoListOptions')
                 dropDown.appendChild(listItem);
             }
         }
@@ -531,7 +565,5 @@ function autoFillBoxes (text, array){
 
   //initiating it
 
-  autoFillBoxes(hardSpiritsField, autoFillOptions);
-  autoFillBoxes(liqueursField, autoFillOptions);
-  autoFillBoxes(mixersField, autoFillOptions);
+  autoFillBoxes(ingredientsInputField, autoFillOptions);
 

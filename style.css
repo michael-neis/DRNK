@@ -101,6 +101,9 @@ body{
 background-color: #e9e9e9;
 }
 
+.autoListOptions{
+    z-index: 100;
+}
 
 #drinkContainer{
     height: auto;
@@ -227,25 +230,64 @@ background-color: #e9e9e9;
 
 
 #runningIngredientsDiv{
-    margin: auto;
-    width: 30%;
+    /* margin: auto; */
+    /* width: 30%; */
     text-align: center;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    margin-top: 2%;
+}
+
+#spiritsIngDiv{
     background-color: #7c3a3aad;
     border-left: outset;
     border-bottom: outset;
     border-color: rgb(63, 55, 55);
+    position: relative;
+    /* left: 30%; */
+    width: 30%;
 }
 
-#activeIngredients{
-    margin-top: -6px;
+#liqueursIngDiv{
+    background-color: #7c3a3aad;
+    border-left: outset;
+    border-bottom: outset;
+    border-color: rgb(63, 55, 55);
+    margin: auto;
+    width: 30%;
+}
+
+#formBackGround{
+    z-index: 100;
+}
+
+#mixersIngDiv{
+    background-color: #7c3a3aad;
+    border-left: outset;
+    border-bottom: outset;
+    border-color: rgb(63, 55, 55);
+    /* right: 30%; */
+    position: relative;
+    width: 30%;
+}
+
+.activeIngredients{
+    margin-top: 1%;
     text-transform: capitalize;
-    font-size: 110%;
+    font-size: 90%;
+}
+
+
+#resetContainer{
+    margin-top: 2%;
+    text-align: center;
 }
 
 #resetBtn{
-    margin-bottom: 2%;
     font-family: 'arial', sans-serif;
-    font-size: 100%;
+    font-size: 103%;
     background-color: rgba(77, 77, 119, 0.288);
     color: rgb(250, 250, 250);
     cursor: pointer;
@@ -265,6 +307,30 @@ background-color: #e9e9e9;
     color:rgb(255, 255, 255);
 }
 
+
+#formBackGround{
+    margin: auto;
+    background-color: #705A4A;
+    width: 40%;
+    height: 60px;
+    border-left: outset;
+    border-bottom: outset;
+    border-color: rgb(77, 38, 10);
+    position: relative;
+}
+
+#inputField{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-family: 'Courier New', Courier, monospace;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 114%;
+}
 
 /* ----------------------------------------------------------------------------------------------- */
 

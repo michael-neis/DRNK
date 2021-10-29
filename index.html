@@ -21,43 +21,19 @@
 
                 <form id="alcoholSelection" autocomplete="off">
                 
-                    <label for="hardSpirits">Hard Spirits
-                        <div class="autoComplete" id="hardAuto">
-                            <input type="text" id="hardSpirits" class="selectors" name="hardSpirits"/>
+                    <div id="formBackGround">
+                        <div id="inputField">
+                            <label for="ingredientsInput">Search Ingredients:
+                                <div class="autoComplete">
+                                    <input type="text" id="ingredientsInput" class="selectors" name="ingredientsInput"/>
+                                </div>
+                            </label>
                         </div>
-                    </label>
+                    </div>
 
-                        <!-- <datalist id="spiritsList">
-                            <option value="vodka">
-                        </datalist> -->
-                
-            
-                    <label for="liqueurs">Liqueurs
-                        <div class="autoComplete" id="liqAuto">
-                            <input type="text" id="liqueurs" class="selectors" name="liqueurs"/>
-                        </div>
-                    </label>
-
-                        <!-- <datalist id="liqueursList">
-                            <option value="campari">
-                        </datalist> -->
-
-                    <label for="mixers">Mixers
-                        <div class="autoComplete" id="mixAuto">
-                            <input type="text" id="mixers" class="selectors" name="mixers"/>
-                        </div>
-                    </label>
-
-                        <!-- <datalist id="mixersList">
-                            <option value="club soda">
-                        </datalist>
-                         -->
-                    
-                    
-                    
 
                     <div>
-                        <input type="submit" value="Find Drink" id="submitBtn"/>
+                        <input type="submit" value="Add" id="submitBtn"/>
                     </div>    
 
                 </form>
@@ -67,12 +43,31 @@
 
 
         <div id="runningIngredientsDiv">
-            <h2 style="padding-top: 2%;">Selected Ingredients:</h2>
-            <p id="activeIngredients">None Selected</p>
+            <div id="spiritsIngDiv">
+                <h3>Spirits:
+                    <p id="spiritIngredients" class="activeIngredients">None Selected</p>
+                </h3>
+            </div>
+
+            <div id="liqueursIngDiv">
+                <h3>Liqueurs:
+                    <p id="liqueurIngredients" class="activeIngredients">None Selected</p>
+                </h3>
+            </div>
+
+            <div id="mixersIngDiv">
+                <h3>Mixers:
+                    <p id="mixerIngredients" class="activeIngredients">None Selected</p>
+                </h3>
+            </div>
+
+            
+        </div>
+        
+        <div id="resetContainer">
             <button id="resetBtn">Reset</button>
         </div>
-
-
+        
         <div id="drinkContainer">
 
             <h2 id="drinkName">↑ Choose Your Ingredients ↑</h2>
