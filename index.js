@@ -446,16 +446,17 @@ function createFillOptions (obj){
     })
 }
 
-
 function autoFillBoxes (text, array){
 
     //the variable that will determine what list item we are on
-    let currentFocus;
+    let selectedWord;
 
     text.addEventListener('input', function(e) {
         
         // elements to be filled with the value of what is being typed
-        let dropDown, listItem, matchLetters = this.value;
+        let dropDown
+        let listItem
+        let matchLetters = this.value;
 
         //makes sure no autofill lists can happen simultaneously
         closeAllLists();
@@ -463,7 +464,7 @@ function autoFillBoxes (text, array){
         //stops fill from happening if no value found
         if (!matchLetters) {return false;}
 
-        currentFocus = -1;
+        selectedWord = -1;
 
         //assigning DIV element to contain values
         dropDown = document.createElement('div');
@@ -481,7 +482,7 @@ function autoFillBoxes (text, array){
                 listItem.innerHTML += array[i].substr(matchLetters.length);
 
                 //creating a field to hold the value of an item (word) in the array
-                listItem.innerHTML += "<input type='hidden' value='" + array[i] + "'>";
+                listItem.innerHTML += "<input type='hidden' class='thingy' value='" + array[i] + "'>";
 
                 //create an eventlistener for when an item is clicked
                 listItem.addEventListener('click', function(e) {
@@ -489,7 +490,7 @@ function autoFillBoxes (text, array){
                     //takes the value of the item clicked and inputs it into the text field
                     text.value = this.getElementsByTagName('input')[0].value;
 
-                    currentFocus = -1;
+                    selectedWord = -1;
 
                     //then makes sure to close the list
                     closeAllLists();
@@ -502,60 +503,69 @@ function autoFillBoxes (text, array){
 
     //adding an eventlistener to the keydown
     text.addEventListener('keydown', function(keySpec) {
-        let listItem = document.getElementById(this.id + "selectorsList");
-        if (listItem) listItem = listItem.getElementsByTagName('div');
+        let wordsArray = document.getElementById(this.id + "selectorsList");
+        if (wordsArray) wordsArray = wordsArray.getElementsByTagName('div');
 
         //for down arrow, increase focus variable and make item more visible
         if (keySpec.keyCode == 40){
-            currentFocus++;
-            addActive(listItem);
+            selectedWord++;
+            addActive(wordsArray);
 
         //for the up arrow, decrease focus variable and make that new selected item more visible
         } else if (keySpec.keyCode == 38){
-            currentFocus--;
-            addActive(listItem);
+            selectedWord--;
+            addActive(wordsArray);
 
         //for the enter key, prevent the whole form from being submitted, and simulate a 'click' on the selected item
         } else if (keySpec.keyCode == 13){
 
-            if (currentFocus > -1){
+            if (selectedWord > -1){
                 keySpec.preventDefault();
-                if (listItem) listItem[currentFocus].click();
-                currentFocus = -1;
+                if (wordsArray) wordsArray[selectedWord].click();
+                selectedWord = -1;
             }
 
         }
     });
 
     //creating a function to clasify whether an item is "active"
-    function addActive(item){
-        if (!item) return false;
+    function addActive(wordsArray){
+        if (!wordsArray) return false;
 
         //initiate another function to remove all 'active' indications and reseting focus
-        removeActive(item);
-        if (currentFocus >= item.length) currentFocus = 0;
-        if (currentFocus < 0) currentFocus = (item.length - 1);
+        removeActive(wordsArray);
+        if (selectedWord >= wordsArray.length) selectedWord = 0;
+        if (selectedWord < 0) selectedWord = (wordsArray.length - 1);
 
         //adding a new html class for the active elements
-        item[currentFocus].classList.add('activeSelectors');
+        wordsArray[selectedWord].classList.add('activeSelectors');
     }
 
     //the actual function to remove the active indications as initiated above
-    function removeActive(item){
-        for (let i = 0; i < item.length; i++){
-            item[i].classList.remove('activeSelectors');
+    function removeActive(wordsArray){
+        for (let i = 0; i < wordsArray.length; i++){
+            wordsArray[i].classList.remove('activeSelectors');
         }
     }
 
     //the function that actually closes the lists from earlier
-    function closeAllLists(list) {
-        var dropDiv = document.getElementsByClassName("selectorsItems");
-        for (var i = 0; i < dropDiv.length; i++) {
-        if (list != dropDiv[i] && list != text) {
-                dropDiv[i].parentNode.removeChild(dropDiv[i]);
+    // function closeAllLists(list) {
+    //     var dropDown = document.getElementsByClassName("selectorsItems");
+    //     console.log(list)
+    //     for (var i = 0; i < dropDown.length; i++) {
+    //     if (list != dropDown[i] && list != text) {
+    //             dropDown[i].parentNode.removeChild(dropDown[i]);
+    //         }
+    //     }
+    // }
+
+    function closeAllLists() {
+        var dropDown = document.getElementsByClassName("selectorsItems");
+        for (var i = 0; i < dropDown.length; i++) {
+                dropDown[i].parentNode.removeChild(dropDown[i]);
             }
         }
-    }
+
 
     //and finally, an eventlistener so that when the user clicks out of the field, the lists are closed
     document.addEventListener('click', (e) => closeAllLists(e.target))
@@ -566,4 +576,3 @@ function autoFillBoxes (text, array){
   //initiating it
 
   autoFillBoxes(ingredientsInputField, autoFillOptions);
-
